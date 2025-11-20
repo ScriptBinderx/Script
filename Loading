@@ -19,62 +19,60 @@ frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- black box
 frame.BorderSizePixel = 0
 frame.Parent = screenGui
 
--- Rounded corners
 local corner = Instance.new("UICorner")
 corner.CornerRadius = UDim.new(0, 18)
 corner.Parent = frame
 
--- Main Text
+-- MAIN TEXT (smaller)
 local label = Instance.new("TextLabel")
-label.Size = UDim2.new(1, 0, 1, -30)
-label.Position = UDim2.new(0, 0, 0, 10)
+label.Size = UDim2.new(1, -20, 0, 40)
+label.Position = UDim2.new(0, 10, 0, 20)
 label.BackgroundTransparency = 1
 label.Text = "Wait your script to load"
 label.Font = Enum.Font.GothamBold
-label.TextScaled = true
 label.TextColor3 = Color3.fromRGB(170, 0, 255) -- neon purple
+label.TextScaled = false
+label.TextSize = 20  -- SMALL TEXT
 label.Parent = frame
 
--- Loading dots (3D animation effect)
+-- Animated 3D loading dots (small)
 local dots = Instance.new("TextLabel")
-dots.Size = UDim2.new(1, 0, 0, 40)
-dots.Position = UDim2.new(0, 0, 0.65, 0)
+dots.Size = UDim2.new(1, -20, 0, 40)
+dots.Position = UDim2.new(0, 10, 0, 70)
 dots.BackgroundTransparency = 1
 dots.Text = ""
 dots.Font = Enum.Font.GothamBlack
-dots.TextScaled = true
 dots.TextColor3 = Color3.fromRGB(170, 0, 255)
+dots.TextScaled = false
+dots.TextSize = 28  -- Slightly larger than main text
 dots.Parent = frame
 
--- Animated dots loop
+-- Animated dots
 task.spawn(function()
-	local dotList = {".", "..", "..."}
-	local index = 1
+	local list = {".", "..", "..."}
+	local i = 1
 	while screenGui.Parent do
-		dots.Text = dotList[index]
-		index = index + 1
-		if index > #dotList then
-			index = 1
-		end
+		dots.Text = list[i]
+		i += 1
+		if i > #list then i = 1 end
 		wait(0.4)
 	end
 end)
 
--- Fade out function
+-- Fade out
 local function fadeOut()
-	for i = 0, 1, 0.03 do
-		frame.BackgroundTransparency = i
-		label.TextTransparency = i
-		dots.TextTransparency = i
-		blur.Size = 20 - (i * 20)
+	for t = 0, 1, 0.03 do
+		frame.BackgroundTransparency = t
+		label.TextTransparency = t
+		dots.TextTransparency = t
+		blur.Size = 20 - (t * 20)
 		wait(0.03)
 	end
 	blur:Destroy()
 	screenGui:Destroy()
 end
 
--- WAIT 10 MINUTES (600 SECONDS)
+-- WAIT 10 MINUTES
 wait(600)
 
--- Fade loading screen
 fadeOut()
