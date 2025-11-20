@@ -28,7 +28,7 @@ local logo = Instance.new("ImageLabel")
 logo.Size = UDim2.new(0, 60, 0, 60)
 logo.Position = UDim2.new(0.5, -30, 0, 10)
 logo.BackgroundTransparency = 1
-logo.Image = "rbxassetid://77940526891025"  -- Roblox asset ID
+logo.Image = "rbxassetid://77940526891025"  -- your logo ID
 logo.Parent = frame
 
 -- MAIN TEXT (centered)
@@ -59,30 +59,30 @@ dots.Parent = frame
 
 -- Animated dots
 task.spawn(function()
-	local list = {".", "..", "..."}
-	local i = 1
-	while screenGui.Parent do
-		dots.Text = list[i]
-		i += 1
-		if i > #list then i = 1 end
-		wait(0.4)
-	end
+    local list = {".", "..", "..."}
+    local i = 1
+    while screenGui.Parent do
+        dots.Text = list[i]
+        i += 1
+        if i > #list then i = 1 end
+        wait(0.4)
+    end
 end)
 
--- Fade out function
+-- Fade out
 local function fadeOut()
-	for t = 0, 1, 0.03 do
-		frame.BackgroundTransparency = t
-		label.TextTransparency = t
-		dots.TextTransparency = t
-		logo.ImageTransparency = t
-		blur.Size = 20 - (t * 20)
-		wait(0.03)
-	end
-	blur:Destroy()
-	screenGui:Destroy()
+    for t = 0, 1, 0.03 do
+        frame.BackgroundTransparency = t
+        label.TextTransparency = t
+        dots.TextTransparency = t
+        logo.ImageTransparency = t
+        blur.Size = 20 - (t * 20)
+        wait(0.03)
+    end
+    blur:Destroy()
+    screenGui:Destroy()
 end
 
--- WAIT 10 MINUTES
-wait(600)
+-- WAIT 7 MINUTES
+wait(300)
 fadeOut()
