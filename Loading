@@ -1,0 +1,80 @@
+-- Loading Screen Script (LocalScript in StarterPlayerScripts)
+
+-- Create ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.IgnoreGuiInset = true
+screenGui.ResetOnSpawn = false
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+-- Background blur
+local blur = Instance.new("BlurEffect")
+blur.Size = 20
+blur.Parent = game.Lighting
+
+-- Create center box
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 280, 0, 140)
+frame.Position = UDim2.new(0.5, -140, 0.5, -70)
+frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- black box
+frame.BorderSizePixel = 0
+frame.Parent = screenGui
+
+-- Rounded corners
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 18)
+corner.Parent = frame
+
+-- Main Text
+local label = Instance.new("TextLabel")
+label.Size = UDim2.new(1, 0, 1, -30)
+label.Position = UDim2.new(0, 0, 0, 10)
+label.BackgroundTransparency = 1
+label.Text = "Wait your script to load"
+label.Font = Enum.Font.GothamBold
+label.TextScaled = true
+label.TextColor3 = Color3.fromRGB(170, 0, 255) -- neon purple
+label.Parent = frame
+
+-- Loading dots (3D animation effect)
+local dots = Instance.new("TextLabel")
+dots.Size = UDim2.new(1, 0, 0, 40)
+dots.Position = UDim2.new(0, 0, 0.65, 0)
+dots.BackgroundTransparency = 1
+dots.Text = ""
+dots.Font = Enum.Font.GothamBlack
+dots.TextScaled = true
+dots.TextColor3 = Color3.fromRGB(170, 0, 255)
+dots.Parent = frame
+
+-- Animated dots loop
+task.spawn(function()
+	local dotList = {".", "..", "..."}
+	local index = 1
+	while screenGui.Parent do
+		dots.Text = dotList[index]
+		index = index + 1
+		if index > #dotList then
+			index = 1
+		end
+		wait(0.4)
+	end
+end)
+
+-- Fade out function
+local function fadeOut()
+	for i = 0, 1, 0.03 do
+		frame.BackgroundTransparency = i
+		label.TextTransparency = i
+		dots.TextTransparency = i
+		blur.Size = 20 - (i * 20)
+		wait(0.03)
+	end
+	blur:Destroy()
+	screenGui:Destroy()
+end
+
+-- WAIT 10 MINUTES (600 SECONDS)
+wait(600)
+
+-- Fade loading screen
+fadeOut()
