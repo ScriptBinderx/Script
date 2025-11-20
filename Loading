@@ -23,49 +23,13 @@ local corner = Instance.new("UICorner")
 corner.CornerRadius = UDim.new(0, 18)
 corner.Parent = frame
 
--- === ANIMATED LOGO ===
-local logoFrame = Instance.new("Frame")
-logoFrame.Size = UDim2.new(0, 60, 0, 60)
-logoFrame.Position = UDim2.new(0.5, -30, 0, 10)
-logoFrame.BackgroundColor3 = Color3.fromRGB(170, 0, 255)
-logoFrame.BorderSizePixel = 0
-logoFrame.Parent = frame
-
-local logoCorner = Instance.new("UICorner")
-logoCorner.CornerRadius = UDim.new(0, 30)
-logoCorner.Parent = logoFrame
-
--- Animate logo (pulse + rotate + color change)
-task.spawn(function()
-    local colors = {
-        Color3.fromRGB(170, 0, 255),
-        Color3.fromRGB(255, 0, 170),
-        Color3.fromRGB(0, 170, 255),
-        Color3.fromRGB(255, 170, 0)
-    }
-    local colorIndex = 1
-    local scaleDirection = 1
-    local rotation = 0
-
-    while screenGui.Parent do
-        -- Color change
-        logoFrame.BackgroundColor3 = colors[colorIndex]
-        colorIndex += 1
-        if colorIndex > #colors then colorIndex = 1 end
-
-        -- Pulse effect
-        local size = logoFrame.Size
-        local newSize = UDim2.new(0, 60 + (5 * scaleDirection), 0, 60 + (5 * scaleDirection))
-        logoFrame.Size = newSize
-        scaleDirection *= -1
-
-        -- Rotate frame
-        rotation += 15
-        logoFrame.Rotation = rotation
-
-        wait(0.2)
-    end
-end)
+-- LOGO
+local logo = Instance.new("ImageLabel")
+logo.Size = UDim2.new(0, 60, 0, 60)
+logo.Position = UDim2.new(0.5, -30, 0, 10)
+logo.BackgroundTransparency = 1
+logo.Image = "rbxassetid://77940526891025"  -- Roblox asset ID
+logo.Parent = frame
 
 -- MAIN TEXT (centered)
 local label = Instance.new("TextLabel")
@@ -95,30 +59,30 @@ dots.Parent = frame
 
 -- Animated dots
 task.spawn(function()
-    local list = {".", "..", "..."}
-    local i = 1
-    while screenGui.Parent do
-        dots.Text = list[i]
-        i += 1
-        if i > #list then i = 1 end
-        wait(0.4)
-    end
+	local list = {".", "..", "..."}
+	local i = 1
+	while screenGui.Parent do
+		dots.Text = list[i]
+		i += 1
+		if i > #list then i = 1 end
+		wait(0.4)
+	end
 end)
 
 -- Fade out function
 local function fadeOut()
-    for t = 0, 1, 0.03 do
-        frame.BackgroundTransparency = t
-        label.TextTransparency = t
-        dots.TextTransparency = t
-        logoFrame.BackgroundTransparency = t
-        blur.Size = 20 - (t * 20)
-        wait(0.03)
-    end
-    blur:Destroy()
-    screenGui:Destroy()
+	for t = 0, 1, 0.03 do
+		frame.BackgroundTransparency = t
+		label.TextTransparency = t
+		dots.TextTransparency = t
+		logo.ImageTransparency = t
+		blur.Size = 20 - (t * 20)
+		wait(0.03)
+	end
+	blur:Destroy()
+	screenGui:Destroy()
 end
 
--- Wait 10 minutes
+-- WAIT 10 MINUTES
 wait(600)
 fadeOut()
